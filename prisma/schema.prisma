@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Lead {
+  id           String     @id @default(cuid())
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  status       LeadStatus @default(NEW)
+  channel      Channel    @default(WEBSITE)
+  name         String
+  phone        String?
+  email        String?
+  businessName String?
+  location     String?
+  service      String?
+  message      String?
+  userId       String?
+  user         User?      @relation(fields: [userId], references: [id])
+  notes        Note[]
+  tasks        Task[]
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Note {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  leadId    String
+  authorId  String?
+  body      String
+  author    User?    @relation(fields: [authorId], references: [id])
+  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@index([leadId])
+  @@index([createdAt])
+}
+
+model Task {
+  id           String    @id @default(cuid())
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  leadId       String
+  title        String
+  dueAt        DateTime?
+  doneAt       DateTime?
+  assignedToId String?
+  assignedTo   User?     @relation(fields: [assignedToId], references: [id])
+  lead         Lead      @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@index([leadId])
+  @@index([dueAt])
+  @@index([doneAt])
+}
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email     String   @unique
+  name      String?
+  leads     Lead[]
+  notes     Note[]
+  tasks     Task[]
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  PROPOSAL_SENT
+  WON
+  LOST
+}
+
+enum Channel {
+  WEBSITE
+  PHONE
+  TEXT
+  EMAIL
+  INSTAGRAM
+  FACEBOOK
+  REFERRAL
+  WALK_IN
+  OTHER
+}

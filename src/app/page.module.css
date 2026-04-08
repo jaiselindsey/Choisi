@@ -1,0 +1,100 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  background: url("/thomas-habr-6NmnrAJPq7M-unsplash.jpg") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  padding: 0 3rem;
+}
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.38);
+  z-index: 1;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+    color: white;
+    margin-top: 6rem;
+}
+
+.kicker {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-bottom: 1.25rem;
+}
+
+.title {
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 1.05;
+    margin: 0;
+    font-weight: 600;
+}
+
+.description {
+    margin-top: 1.5rem;
+    max-width: 620px;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.primaryBtn,
+.secondaryBtn {
+    text-decoration: none;
+    padding: 1rem, 1.75rem;
+    border-radius: 0;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: 0.25s ease;
+    display: inline-block;
+}
+
+.primaryBtn {
+    background: transparent;
+    color: white;
+    border: 1px solid white;
+}
+
+.primaryBtn:hover {
+    opacity: 0.9;
+    background-color: wheat;
+    color: #111;
+}
+
+.secondaryBtn {
+    border: 1px solid white;
+    color: white;
+    background: transparent;
+}
+
+.secondaryBtn:hover {
+    background: wheat;
+    color: #111;
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 0 1.5rem;
+    }
+
+    .content {
+        margin-top: 4rem;
+    }
+
+    .description {
+        font-size: 1rem;
+    }
+}
