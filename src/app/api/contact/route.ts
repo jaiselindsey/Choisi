@@ -5,6 +5,13 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
+    console.log("Contact route hit", {
+      hasDatabaseUrl: !!process.env.DATABASE_URL,
+      hasResendKey: !!process.env.RESEND_API_KEY,
+      hasToEmail: !!process.env.CONTACT_TO_EMAIL,
+      hasFromEmail: !!process.env.CONTACT_FROM_EMAIL,
+    });
+
     if (!body.name || !body.email || !body.phone) {
       return Response.json(
         { error: "Name, email, and phone number are required" },
@@ -18,17 +25,11 @@ export async function POST(req: Request) {
       process.env.CONTACT_FROM_EMAIL || "Choisi <onboarding@resend.dev>";
 
     if (!resendApiKey) {
-      return Response.json(
-        { error: "RESEND_API_KEY is not configured" },
-        { status: 500 }
-      );
+      throw new Error("RESEND_API_KEY is missing");
     }
 
     if (!contactToEmail) {
-      return Response.json(
-        { error: "CONTACT_TO_EMAIL is not configured" },
-        { status: 500 }
-      );
+      throw new Error("CONTACT_TO_EMAIL is missing");
     }
 
     const resend = new Resend(resendApiKey);
@@ -58,41 +59,27 @@ export async function POST(req: Request) {
     });
 
     if (resendError) {
+      console.error("Resend error:", resendError);
       return Response.json(
-        {
-          message: "Lead created, but failed to send email notification",
-          lead,
-          resendError,
-        },
+        { message: "Lead saved, but email failed", lead, resendError },
         { status: 201 }
       );
     }
 
     return Response.json(
-      {
-        message: "Lead created and email notification sent successfully",
-        lead,
-      },
+      { message: "Lead created and email sent", lead },
       { status: 201 }
     );
   } catch (error) {
-    return Response.json(
-      { error: "Failed to submit contact form" },
-      { status: 500 }
-    );
-  }
-}
+    console.error("Contact route error:", error);
 
-export async function GET() {
-  try {
-    const contacts = await prisma.lead.findMany({
-      orderBy: { createdAt: "desc" },
-    });
-
-    return Response.json(contacts);
-  } catch (error) {
     return Response.json(
-      { error: "Failed to fetch contact submissions" },
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to submit contact form",
+      },
       { status: 500 }
     );
   }
