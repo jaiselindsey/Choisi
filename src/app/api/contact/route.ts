@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
-import { error } from "console";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST (req: Request) {
     try {
@@ -18,17 +20,42 @@ export async function POST (req: Request) {
                 email: body.email,
                 phone: body.phone,
                 businessName: body.businessName || null,
-                location: body.location || null,
-                service: body.service || null,
                 message: body.message || null,
             },
         })
 
+
+        const { error: resendError } = await resend.emails.send({
+            from: process.env.CONTACT_FROM_EMAIL || "Choisi <onboarding@resend.dev>",
+            to: [process.env.CONTACT_TO_EMAIL || ""],
+            subject: `New Choisi inquiry from ${body.name}`,
+            html: `
+                <h2>New Choisi inquiry </h2>
+                <p><strong>Name:</strong> ${body.name}</p>
+                <p><strong>Email:</strong> ${body.email}</p>
+                <p><strong>Phone:</strong> ${body.phone}</p>
+                <p><strong>Business:</strong> ${body.businessName || "N/A"}</p>
+                <p><strong>Message:</strong> ${body.message || "N/A"}</p>
+                `,
+        })
+
+        if (resendError) {
+            return Response.json(
+                {
+                    message: "Lead created, but failed to send email notification",
+                    lead,
+                    resendError
+                },
+                { status: 201 }
+            )
+        }
+
         return Response.json(
             {
-                message: "Contact submission received",
+                message: "Lead created and email notification sent successfully",
                 lead,
             },
+            
             { status: 201 }
         )
     } catch (error) {

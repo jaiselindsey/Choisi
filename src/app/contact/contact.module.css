@@ -1,0 +1,141 @@
+.contactPage {
+    position: relative;
+    min-height: 100vh;
+    background: url("/thomas-habr-6NmnrAJPq7M-unsplash.jpg") center/cover no-repeat;
+    padding: 0 3rem 6rem;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.42);
+    z-index: 1;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+    padding: 10rem;
+    color: #f5efe6;
+    max-width: 800px;
+    
+}
+
+.kicker {
+    margin: 0 0 1rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #d6b36a
+}
+
+.title {
+    margin: 0;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 1.02;
+    color: #f5efe6;
+    max-width: 760px;
+}
+
+.description {
+    margin-top: 1.5rem;
+    max-width: 620px;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: snow;
+}
+
+.form {
+    margin-top: 3rem;
+    display: grid;
+    gap: 1.25rem;
+    max-width: 640px;
+}
+
+.field {
+    display: grid;
+    gap: 0.55rem;
+
+}
+
+.label {
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #d6b36a;
+}
+
+.input,
+.textarea {
+    width: 100%;
+    padding: 1rem 1.1rem;
+    border: 1px solid rgba(245, 239, 230, 0.42);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    color: #f5efe6;
+    font-size: 0.98rem;
+    outline: none;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+    color: rgba(245, 239, 230, 0.45);
+}
+
+.input:focus,
+.textarea:focus {
+    border-color: rgba(214, 179, 106, 0.75);
+}
+
+.textarea {
+    min-height: 170px;
+    resize: vertical;
+}
+
+.button {
+    width: fit-content;
+    margin-top: 0.5rem;
+    padding: 1rem 1.75rem;
+    border: 1px solid #f5efe6;
+    background: #f5efe6;
+    color: #111111;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.button:hover {
+    opacity: 0.92;
+}
+
+.button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+
+}
+
+.success{
+    margin-top: 0.5rem;
+    color: #d6b36a;
+}
+
+.error {
+    margin-top: 0.5rem;
+    color: #ffb4b4
+}
+
+@media (max-width: 768px) {
+    .content {
+        padding: 8rem;
+    }
+    .contactPage {
+        padding: 0 1.5rem 4rem;
+    }
+    .title {
+        font-size: clamp(2.3rem, 10vw, 4rem);
+    }
+    .description {
+        font-size: 1rem;
+    }
+}

@@ -4,5 +4,97 @@
   background: url("/thomas-habr-6NmnrAJPq7M-unsplash.jpg") center/cover no-repeat;
   display: flex;
   align-items: center;
-  padding: 0 3rem;
+  padding: 8rem 3rem;
+}
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.38);
+  z-index: 1;
+}
+.content {
+    position: relative;
+    z-index: 2;
+    padding-top: 10 rem;
+    max-width: 1400px;
+    color: #f5efe6;
+
+}
+.kicker {
+    margin: 0 0 1rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #e0c27a;
+}
+.title {
+    margin-top: 1.5 rem;
+    max-width: 620px;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: rgba(245, 239, 230, 0.82);
+}
+.description {
+  margin-top: 1.5rem;
+  max-width: 620px;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: snow;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  margin-top: 3rem;
+}
+
+.card {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(245, 239, 230, 0.14) !important;
+  color: #f5efe6 !important;
+  backdrop-filter: blur(8px);
+  box-shadow: none !important;
+}
+.cardTitle {
+  color: #f5efe6 !important;
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.cardDescription {
+  color: snow !important;
+  line-height: 1.75;
+  font-size: 0.98rem;
+}
+
+
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .services {
+    padding: 0 1.5rem 4rem;
+  }
+
+  .content {
+    padding-top: 8rem;
+  }
+
+  .title {
+    font-size: clamp(2.4rem, 10vw, 4rem);
+  }
+
+  .description {
+    font-size: 1rem;
+  }
 }

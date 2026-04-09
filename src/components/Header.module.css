@@ -48,3 +48,35 @@
 .menu a {
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
 }
+.menuButton {
+  display: none;
+}
+
+@media(max-width: 900px) {
+
+  .navBar {
+    padding: 1.5rem;
+  }
+  .menuButton {
+    display: block;
+  }
+  .menu {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    right: 1.5rem;
+    width: 220px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid rgba(245, 239, 230, 0.12);
+    backdrop-filter: blur(10px);
+    display: none;
+    z-index: 101;
+  }
+  
+  .open {
+    display: flex;
+  }
+}
