@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import test from "node:test";
 import { Resend } from "resend";
 
 export async function POST(req: Request) {
@@ -33,7 +34,7 @@ export async function POST(req: Request) {
     }
 
     const resend = new Resend(resendApiKey);
-
+/*
     const lead = await prisma.lead.create({
       data: {
         name: body.name,
@@ -43,7 +44,8 @@ export async function POST(req: Request) {
         message: body.message || null,
       },
     });
-
+*/
+    const lead = { test: true}
     const { error: resendError } = await resend.emails.send({
       from: contactFromEmail,
       to: [contactToEmail],
