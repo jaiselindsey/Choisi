@@ -46,8 +46,9 @@ export async function DELETE(
     _req: Request,
     { params }: RouteContext 
 ) {
+    const { id } = await params
     await prisma.user.delete({
-        where: { id: params.id }
+        where: { id }
     })
     return Response.json({
         message: "User deleted "
