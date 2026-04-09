@@ -1,5 +1,3 @@
-import { prisma } from "@/lib/prisma";
-import test from "node:test";
 import { Resend } from "resend";
 
 export async function POST(req: Request) {
@@ -7,7 +5,6 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     console.log("Contact route hit", {
-      hasDatabaseUrl: !!process.env.DATABASE_URL,
       hasResendKey: !!process.env.RESEND_API_KEY,
       hasToEmail: !!process.env.CONTACT_TO_EMAIL,
       hasFromEmail: !!process.env.CONTACT_FROM_EMAIL,
@@ -34,19 +31,8 @@ export async function POST(req: Request) {
     }
 
     const resend = new Resend(resendApiKey);
-/*
-    const lead = await prisma.lead.create({
-      data: {
-        name: body.name,
-        email: body.email,
-        phone: body.phone,
-        businessName: body.businessName || null,
-        message: body.message || null,
-      },
-    });
-*/
-    const lead = { test: true}
-    const { error: resendError } = await resend.emails.send({
+
+    const { data, error: resendError } = await resend.emails.send({
       from: contactFromEmail,
       to: [contactToEmail],
       subject: `New Choisi inquiry from ${body.name}`,
@@ -60,16 +46,15 @@ export async function POST(req: Request) {
       `,
     });
 
+    console.log("Resend data:", data);
+    console.log("Resend error:", resendError);
+
     if (resendError) {
-      console.error("Resend error:", resendError);
-      return Response.json(
-        { message: "Lead saved, but email failed", lead, resendError },
-        { status: 201 }
-      );
+      return Response.json({ error: resendError }, { status: 500 });
     }
 
     return Response.json(
-      { message: "Lead created and email sent", lead },
+      { message: "Email sent successfully", data },
       { status: 201 }
     );
   } catch (error) {
@@ -78,9 +63,7 @@ export async function POST(req: Request) {
     return Response.json(
       {
         error:
-          error instanceof Error
-            ? error.message
-            : "Failed to submit contact form",
+          error instanceof Error ? error.message : "Failed to submit contact form",
       },
       { status: 500 }
     );
