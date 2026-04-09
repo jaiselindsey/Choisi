@@ -1,13 +1,13 @@
 import { prisma } from "@/lib/prisma";
 import { error } from "console";
 
-type Context = {
-    params: { id: string }
+type RouteContext = {
+    params: Promise<{ id: string }>
 }
 
 export async function GET(
     _req: Request,
-    { params }: Context
+    { params }: RouteContext
 ) {
     const { id } = await params
     const user = await prisma.user.findUnique({
@@ -25,7 +25,7 @@ export async function GET(
 
 export async function PATCH (
     req: Request,
-    { params }: Context
+    { params }: RouteContext
 ) {
    const body = await req.json()
 
@@ -44,7 +44,7 @@ export async function PATCH (
 
 export async function DELETE(
     _req: Request,
-    { params }: Context 
+    { params }: RouteContext 
 ) {
     await prisma.user.delete({
         where: { id: params.id }
