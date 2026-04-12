@@ -27,8 +27,8 @@ export default function AboutPage () {
                     </section>
 
                     <section className={styles.card}>
-                        <h2 className={styles.cardTitle}>Why Choisi</h2>
-                        <p className={styles.cardText}>Choosing Choisi means partnering with a team that understands the power of great design and development. We don't just build websites or apps; we create digital experiences that resonate with your audience and drive real results.
+                        <h2 className={styles.cardTitle}>Choosing Choisi</h2>
+                        <p className={styles.cardText}>Choosing Choisi means partnering with a team that understands the power of great design and development. We create digital experiences that resonate with your audience and drive real results.
                         </p>
                     </section>
                 </div>
